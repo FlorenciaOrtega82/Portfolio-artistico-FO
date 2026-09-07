@@ -1,0 +1,59 @@
+---
+// src/components/ShareButton.astro
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = 'Flor Ortega | Artista y dibujante',
+  text = 'Retratos y encargos en grafito y carboncillo',
+} = Astro.props;
+---
+
+<button
+  id="share-button"
+  type="button"
+  data-title={title}
+  data-text={text}
+  class="inline-flex items-center gap-2 text-sm text-[var(--color-ink-soft)] hover:text-[var(--color-accent)] transition-colors"
+>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+    <path d="M8.6 13.5 15.4 17.5M15.4 6.5 8.6 10.5" />
+  </svg>
+  <span id="share-button-label">Compartir</span>
+</button>
+
+<script>
+  const button = document.getElementById('share-button');
+  const label = document.getElementById('share-button-label');
+
+  button?.addEventListener('click', async () => {
+    const title = button.getAttribute('data-title') || document.title;
+    const text = button.getAttribute('data-text') || '';
+    const url = window.location.href;
+
+    // navigator.share es la Web Share API: en celulares abre el menú nativo
+    // de compartir (WhatsApp, Instagram, mail, etc.). No existe en todos
+    // los navegadores de escritorio, por eso el fallback de abajo.
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, text, url });
+      } catch {
+        // El usuario canceló el share nativo — no hacemos nada, no es un error real.
+      }
+    } else if (navigator.clipboard) {
+      // Fallback para desktop: copiamos el link y avisamos con un cambio
+      // de texto temporal en el botón, en vez de un alert() intrusivo.
+      await navigator.clipboard.writeText(url);
+      if (label) {
+        const original = label.textContent;
+        label.textContent = '¡Link copiado!';
+        setTimeout(() => {
+          label.textContent = original;
+        }, 2000);
+      }
+    }
+  });
+</script>

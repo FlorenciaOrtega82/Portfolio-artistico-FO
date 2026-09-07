@@ -8,9 +8,19 @@ import Footer from "../components/Footer.astro";
 import AboutSection from "../components/AboutSection.astro";
 import SketchbookSection from "../components/SketchbookSection.astro";
 import TestimonialSection from "../components/TestimonialSection.astro";
+import FAQSection from "../components/FAQSection.astro";
+import MobileStickyCTA from "../components/MobileStickyCTA.astro";
+
+// Título y descripción PROPIOS de esta página (intención de búsqueda:
+// alguien buscando "retratos en grafito" o "artista San Rafael Mendoza").
+// Cuando sumes más páginas, cada una define los suyos en vez de heredar
+// estos valores genéricos del Layout.
+const pageTitle = "Flor Ortega | Retratos y encargos en grafito, San Rafael Mendoza";
+const pageDescription =
+  "Retratos, piezas memoriales y encargos personalizados en grafito y carboncillo, hechos a mano por Flor Ortega en San Rafael, Mendoza.";
 ---
 
-<Layout>
+<Layout title={pageTitle} description={pageDescription}>
 	<Hero
 		name="Flor Ortega"
 		tagline="Realismo en grafito y carboncillo"
@@ -21,6 +31,8 @@ import TestimonialSection from "../components/TestimonialSection.astro";
 	<ProcessSection />
 	<TestimonialSection />
 	<SketchbookSection/>
+	<FAQSection />
 	<CommissionForm />
 	<Footer />
+	<MobileStickyCTA />
 </Layout>

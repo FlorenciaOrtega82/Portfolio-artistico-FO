@@ -56,7 +56,7 @@ const typeLabels: Record<string, string> = {
           <div class="relative overflow-hidden rounded-xl bg-neutral-100 aspect-square">
             <img
               src={art.image}
-              alt={art.title}
+              alt={`${art.title}, ${art.technique.toLowerCase()}`}
               class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <span
@@ -235,7 +235,11 @@ const typeLabels: Record<string, string> = {
   }
   // --- Fin lógica de zoom ---
 
-  const showMedia = (allMedia: MediaItem[], index: number) => {
+  const showMedia = (
+    allMedia: MediaItem[],
+    index: number,
+    artworkTitle: string,
+  ) => {
     if (!modalImage || !modalVideo || !modalCounter) return;
     const item = allMedia[index];
 
@@ -251,6 +255,12 @@ const typeLabels: Record<string, string> = {
       modalVideo.classList.add("hidden");
       modalImage.classList.remove("hidden");
       modalImage.src = item.src;
+      // Alt descriptivo: distingue la foto principal de las fotos de
+      // proceso, en vez de dejarlo vacío en las dos.
+      modalImage.alt =
+        index === 0
+          ? artworkTitle
+          : `Foto de proceso de "${artworkTitle}"`;
     }
 
     modalCounter.textContent =
@@ -282,12 +292,14 @@ const typeLabels: Record<string, string> = {
       thumb.type = "button";
       thumb.className =
         "relative flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border border-neutral-200";
+      const thumbAlt =
+        i === 0 ? `Miniatura de ${art.title}` : `Foto de proceso ${i} de ${art.title}`;
       thumb.innerHTML = item.isVideo
         ? `<div class="w-full h-full bg-neutral-800 flex items-center justify-center">
              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
            </div>`
-        : `<img src="${item.src}" class="w-full h-full object-cover" alt="" />`;
-      thumb.addEventListener("click", () => showMedia(allMedia, i));
+        : `<img src="${item.src}" class="w-full h-full object-cover" alt="${thumbAlt}" />`;
+      thumb.addEventListener("click", () => showMedia(allMedia, i, art.title));
       modalThumbnails.appendChild(thumb);
     });
 
@@ -297,7 +309,7 @@ const typeLabels: Record<string, string> = {
           allMedia.findIndex((m) => m.src === targetSrc),
         )
       : 0;
-    showMedia(allMedia, startIndex);
+    showMedia(allMedia, startIndex, art.title);
     modal.showModal();
   }
 

@@ -1,0 +1,46 @@
+---
+// src/components/SEO.astro
+// Centraliza todo lo relacionado a metatítulo, metadescripción, canonical y
+// Open Graph. Cada página que use <Layout> le pasa SU PROPIO title/description
+// puntual (pensado para la intención de búsqueda de esa página), en vez de
+// repetir el mismo texto genérico en todo el sitio.
+//
+// Hoy el sitio tiene una sola página (index.astro), así que "metatítulos
+// distintos por página" se cumple parcialmente: el componente ya soporta
+// valores distintos por página, listo para cuando sumes más (por ejemplo,
+// una página propia por obra, o un blog de proceso).
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/images/hero-detalle-camioneta.jpeg', // imagen por defecto para compartir en redes
+} = Astro.props;
+
+// Astro.url.pathname + Astro.site arman la URL canónica absoluta de esta página.
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph: cómo se ve el link al compartirlo en WhatsApp, Instagram, Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:locale" content="es_AR" />
+
+<!-- Twitter/X Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />

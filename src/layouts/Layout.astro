@@ -5,12 +5,40 @@
 // se inserta automáticamente donde dice <slot />.
 import BackToTop from "../components/BackToTop.astro";
 import Navbar from "../components/Navbar.astro";
+import SEO from "../components/SEO.astro";
 import "../styles/global.css";
+
 interface Props {
     title?: string;
+    description?: string;
 }
 
-const { title = "Flor Ortega | Artista y dibujante" } = Astro.props;
+const {
+    title = "Flor Ortega | Artista y dibujante en San Rafael, Mendoza",
+    description = "Portfolio de Flor Ortega: retratos y encargos en grafito y carboncillo, piezas memoriales personalizadas y realismo con base en San Rafael, Mendoza.",
+} = Astro.props;
+
+// Schema.org LocalBusiness (en rigor, un artista independiente encaja mejor
+// como "ProfessionalService" que como un comercio con local físico, pero
+// ambos tipos se leen igual a los fines de aparecer en resultados locales
+// de Google). No incluyo dirección exacta ni teléfono porque no los tengo
+// y no quiero inventarlos, completá esos campos si querés que aparezcan.
+const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "Flor Ortega | Artista y dibujante",
+    description:
+        "Retratos y encargos personalizados en grafito y carboncillo, realismo y piezas memoriales.",
+    image: new URL("/images/hero-detalle-camioneta.jpeg", Astro.site).toString(),
+    url: Astro.site?.toString(),
+    address: {
+        "@type": "PostalAddress",
+        addressLocality: "San Rafael",
+        addressRegion: "Mendoza",
+        addressCountry: "AR",
+    },
+    sameAs: ["https://www.instagram.com/ortega_flor_"],
+};
 ---
 
 <!doctype html>
@@ -18,14 +46,31 @@ const { title = "Flor Ortega | Artista y dibujante" } = Astro.props;
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title}</title>
-        <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+        <SEO title={title} description={description} />
+        <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500&display=swap"
             rel="stylesheet"
         />
+
+        <!--
+          Verificación de Google Search Console (#29 de la lista). Reemplazá
+          el content="" por el código real que te da GSC al agregar la
+          propiedad del sitio (Configuración > Verificación de la propiedad
+          > etiqueta HTML). Dejalo comentado hasta tener el código real,
+          sino Google intenta verificar con un valor vacío y falla.
+        -->
+        <!-- <meta name="google-site-verification" content="TU-CODIGO-DE-GSC-ACA" /> -->
+
+        <!-- Schema.org: ayuda a Google a entender que sos un negocio/servicio
+             local, para aparecer mejor en búsquedas tipo "artista San Rafael". -->
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(localBusinessSchema)}
+        />
+
         <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -33,6 +78,22 @@ const { title = "Flor Ortega | Artista y dibujante" } = Astro.props;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "y3e1y7woof");
 </script>
+
+        <!--
+          Google Analytics 4 (#28 de la lista). Reemplazá G-XXXXXXXXXX por tu
+          ID de medición real (lo conseguís en analytics.google.com >
+          Administrador > Flujos de datos > tu sitio web). Dejalo comentado
+          hasta tener el ID real.
+        -->
+        <!--
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XXXXXXXXXX');
+        </script>
+        -->
     </head>
     <body class="bg-[var(--color-paper)] text-[var(--color-ink)]">
         <Navbar />

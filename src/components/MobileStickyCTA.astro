@@ -1,0 +1,40 @@
+---
+// src/components/MobileStickyCTA.astro
+// Barra fija abajo de la pantalla, SOLO en mobile (md:hidden). En desktop no
+// hace falta: el navbar ya tiene el link "Encargar" siempre visible.
+// Se oculta mientras el usuario ya está viendo el formulario de encargo,
+// para no taparlo con una barra redundante.
+---
+
+<div
+  id="mobile-sticky-cta"
+  class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[var(--color-paper)]/95 backdrop-blur-sm border-t border-[var(--color-line)] px-4 py-3 transition-transform duration-300"
+>
+  <a
+    href="#encargo"
+    class="block text-center bg-[var(--color-accent)] text-[var(--color-paper)] text-sm font-medium py-3 rounded-full"
+  >
+    Encargá tu pieza
+  </a>
+</div>
+
+<script>
+  // IntersectionObserver: forma nativa y liviana de detectar si un elemento
+  // (en este caso, el formulario de encargo) está visible en pantalla.
+  // Cuando ya se ve el formulario real, escondemos esta barra flotante
+  // deslizándola hacia abajo (translate-y-full), para no duplicar el CTA.
+  const stickyBar = document.getElementById('mobile-sticky-cta');
+  const commissionSection = document.getElementById('encargo');
+
+  if (stickyBar && commissionSection) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        stickyBar.style.transform = entry.isIntersecting
+          ? 'translateY(100%)'
+          : 'translateY(0)';
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(commissionSection);
+  }
+</script>

@@ -2,7 +2,7 @@
     {
         "id": "monica-geller",
         "title": "Drawing Monica Geller",
-        "image": "/MonicaGeller.jpeg",
+        "image": "/images/retrato-monica-geller-grafito.jpeg",
         "type": "original",
         "status": "disponible",
         "price": null,
@@ -15,7 +15,7 @@
     {
         "id": "angel-bebe-tomi",
         "title": "Tomi",
-        "image": "/angel-bebe.jpeg",
+        "image": "/images/retrato-memorial-tomi-grafito.jpeg",
         "type": "encargo",
         "status": "vendida",
         "price": null,
@@ -28,7 +28,7 @@
     {
         "id": "arcangel-miguel",
         "title": "Arcángel armado",
-        "image": "/arcangel.jpeg",
+        "image": "/images/retrato-arcangel-grafito.jpeg",
         "type": "original",
         "status": "disponible",
         "price": null,
@@ -41,7 +41,7 @@
     {
         "id": "flor-loto",
         "title": "Flor de loto",
-        "image": "/flor-loto.jpeg",
+        "image": "/images/dibujo-flor-de-loto-grafito.jpeg",
         "type": "impresion",
         "status": "vendida",
         "price": null,
@@ -54,7 +54,7 @@
     {
         "id": "camioneta",
         "title": "Camioneta clásica",
-        "image": "/camioneta.jpeg",
+        "image": "/images/retrato-camioneta-clasica-grafito.jpeg",
         "type": "original",
         "status": "vendida",
         "price": null,
@@ -67,7 +67,7 @@
     {
         "id": "retrato-experimento-valores",
         "title": "Título por definir",
-        "image": "/dibujo-mujer.jpeg",
+        "image": "/images/retrato-estudio-luces-sombras-grafito.jpeg",
         "type": "original",
         "status": "disponible",
         "price": null,

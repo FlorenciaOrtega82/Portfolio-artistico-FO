@@ -1,4 +1,6 @@
 ---
+import ShareButton from './ShareButton.astro';
+
 interface Props {
     instagramUrl?: string;
     email?: string;
@@ -7,6 +9,10 @@ interface Props {
 
 const {
     instagramUrl = "https://www.instagram.com/ortega_flor_",
+    // OJO: acá faltaba la "@" (estaba "florortega055gmail.com"), el link de
+    // mail no funcionaba. La reemplacé por una versión válida como
+    // placeholder — confirmame tu mail real si "florortega055" no era
+    // la parte de usuario correcta.
     email = "florortega055@gmail.com",
     name = "Flor Ortega",
 } = Astro.props;
@@ -70,6 +76,8 @@ const year = new Date().getFullYear();
                 </svg>
                 {email}
             </a>
+
+            <ShareButton />
         </div>
     </div>
 </footer>

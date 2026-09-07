@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Hoy el sitio es de una sola página, pero esta regla queda lista
+# por si en el futuro se agregan listados paginados (ej: /page/2/).
+Disallow: /page/
+
+Sitemap: https://portfolio-artistico-fo.vercel.app/sitemap-index.xml

@@ -1,0 +1,96 @@
+---
+// src/components/FAQSection.astro
+// Preguntas frecuentes reales sobre encargar una pieza. Sirve para dos cosas:
+// 1) Resolverle dudas al visitante antes de que tenga que preguntarte por DM.
+// 2) El schema FAQPage le da a Google contenido estructurado que a veces
+//    se muestra directo en los resultados de búsqueda (los desplegables
+//    "la gente también pregunta").
+//
+// Importante: el texto de cada pregunta/respuesta acá abajo es un punto de
+// partida razonable dado lo que ya sabemos de tu forma de trabajar (encargos,
+// Formspree, técnica en grafito/carboncillo) — pero vos conocés mejor los
+// tiempos reales de entrega y la forma de pago, así que ajustá esos datos
+// antes de publicar.
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+const faqs: FAQItem[] = [
+  {
+    question: '¿Cómo pido un encargo?',
+    answer:
+      'Completá el formulario de la sección "Encargá una pieza" con una referencia (foto, descripción o tamaño deseado) y te respondo por mail con precio y tiempos estimados.',
+  },
+  {
+    question: '¿Qué materiales y técnicas usás?',
+    answer:
+      'Trabajo con grafito y carboncillo sobre papel, con foco en realismo, claroscuro y retrato.',
+  },
+  {
+    question: '¿Hacen envíos fuera de San Rafael?',
+    answer:
+      'Sí, se puede coordinar el envío de la pieza terminada. Los detalles de costo y forma de envío se conversan al confirmar el encargo.',
+  },
+  {
+    question: '¿Puedo pedir una pieza memorial o de un ser querido a partir de una foto?',
+    answer:
+      'Sí, es uno de los tipos de encargo que más hago. Me enviás la foto de referencia y trabajamos juntas el resultado que buscás.',
+  },
+  {
+    question: '¿Cuánto tarda un encargo?',
+    answer:
+      'Depende del tamaño y la complejidad de la pieza. Te confirmo un tiempo estimado apenas recibo el detalle de lo que necesitás en el formulario de encargo.',
+  },
+];
+
+// Formato exigido por Schema.org para que Google entienda esto como FAQ.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+---
+
+<section id="preguntas-frecuentes" class="px-6 py-20 bg-[var(--color-ink-bg)]">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="font-[family-name:var(--font-display)] text-2xl text-[var(--color-ink)] mb-10 text-center">
+      Preguntas frecuentes
+    </h2>
+
+    <!--
+      <details>/<summary> es HTML nativo: acordeón funcional sin una línea
+      de JavaScript. Cada pregunta se abre/cierra sola, y sigue siendo
+      accesible por teclado y lectores de pantalla sin trabajo extra.
+    -->
+    <div class="space-y-3">
+      {faqs.map((faq) => (
+        <details class="group bg-[var(--color-paper)] rounded-lg px-5 py-4">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-medium text-[var(--color-ink)] list-none">
+            {faq.question}
+            <svg
+              width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              class="shrink-0 ml-3 transition-transform duration-200 group-open:rotate-45"
+            >
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </summary>
+          <p class="text-sm text-[var(--color-ink-soft)] mt-3 leading-relaxed">
+            {faq.answer}
+          </p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

@@ -11,9 +11,19 @@ const {
     'Dibujo desde siempre, aunque hubo años en los que lo dejé de lado. Durante mucho tiempo tampoco imaginé el arte como una forma de vida. Crecí escuchando que "no se puede vivir del arte", y durante un tiempo llegué a creerlo. Hoy pienso diferente. El arte siempre estuvo ahí, incluso cuando yo me alejé de él, y ahora quiero darle el lugar que realmente tiene en mi vida.',
     'También hay obras que nacen de algo más personal: alguien que quiere conservar un momento, una persona o incluso una ausencia. Son esos trabajos los que más me marcan, porque en esos casos el dibujo deja de ser solamente una obra. Se convierte en un recuerdo, en una forma de guardar a alguien y, de alguna manera, en un lugar al que esa persona puede volver cada vez que quiera mirar a quien quiere.',
   ],
-  photo = '/foto-perfil.jpeg',
-} = Astro.props;  
-  ---
+  photo = '/images/flor-ortega-artista-retrato.jpeg',
+} = Astro.props;
+
+// "Key takeaways": un resumen escaneable para quien no va a leer los 4
+// párrafos completos (y también ayuda a que un buscador o un asistente de
+// IA entienda de un vistazo los datos concretos de tu servicio).
+const takeaways = [
+  'Retratos y encargos personalizados en grafito y carboncillo',
+  'Incluye piezas memoriales a partir de una foto de referencia',
+  'Autodidacta, con foco en realismo y claroscuro',
+  'Con base en San Rafael, Mendoza',
+];
+---
 
 <section id="la-artista" class="px-6 py-24 md:py-28">
   <div class="max-w-xl mx-auto">
@@ -21,7 +31,7 @@ const {
     {photo && (
       <img
         src={photo}
-        alt="Flor Ortega en su espacio de trabajo"
+        alt="Flor Ortega, artista de retratos en grafito y carboncillo, en su espacio de trabajo"
         class="w-60 h-60 rounded-full object-cover grayscale mx-auto mb-10"
       />
     )}
@@ -33,11 +43,41 @@ const {
     <!--
       leading-loose = interlineado más generoso que el default.
       max-w-xl en el contenedor padre ya limita el ancho de línea a algo cómodo de leer.
-      first:text-lg = el primer párrafo un poco más grande, como "entrada" a la historia.
     -->
     <div class="space-y-6">
-      {paragraphs.map((text, i) => (
-        <p class={`text-[var(--color-ink-soft)] leading-loose ${i === 0 ? 'text-lg' : 'text-base'}`}>
+      <!-- Primer párrafo: la "entrada" a la historia, con intención de
+           búsqueda ya cubierta arriba en el título/meta de la página. -->
+      <p class="text-[var(--color-ink-soft)] leading-loose text-lg">
+        {paragraphs[0]}
+      </p>
+
+      <!--
+        Key takeaways / TL;DR: resumen en lista, para quien escanea en vez
+        de leer todo. Va justo después del primer párrafo, antes de seguir
+        con el resto de la historia.
+      -->
+      <ul class="bg-[var(--color-ink-bg)] rounded-lg p-5 space-y-2">
+        {takeaways.map((item) => (
+          <li class="flex items-start gap-2 text-sm text-[var(--color-ink)]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-[var(--color-accent)]">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <!-- CTA después del primer párrafo: para quien ya decidió con solo
+           leer la entrada + el resumen, sin tener que llegar al final. -->
+      <a
+        href="#encargo"
+        class="inline-block bg-[var(--color-accent)] text-[var(--color-paper)] text-sm font-medium px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
+      >
+        Encargá tu pieza
+      </a>
+
+      {paragraphs.slice(1).map((text) => (
+        <p class="text-[var(--color-ink-soft)] leading-loose text-base">
           {text}
         </p>
       ))}
